@@ -1,0 +1,128 @@
+// script.js
+const correctPassword = "ةثيخحقخ"; // استبدل "yourpassword" بكلمة المرور الخاصة بك
+
+document.getElementById('loginButton').addEventListener('click', function() {
+    const passwordInput = document.getElementById('passwordInput').value;
+
+    if (passwordInput === correctPassword) {
+        document.getElementById('loginContainer').style.display = 'none'; // إخفاء قسم تسجيل الدخول
+        document.getElementById('uploadSection').style.display = 'block'; // إظهار قسم رفع الفيديو
+    } else {
+        alert('كلمة المرور غير صحيحة');
+    }
+});
+
+document.getElementById('uploadForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const videoInput = document.getElementById('videoInput');
+    const videoFile = videoInput.files[0];
+
+    if (videoFile) {
+        const videoURL = URL.createObjectURL(videoFile);
+        const videoContainer = document.getElementById('videoContainer');
+
+        const videoItem = document.createElement('div');
+        videoItem.className = 'video-item';
+
+        const videoElement = document.createElement('video');
+        videoElement.controls = true;
+        videoElement.src = videoURL;
+
+        const downloadLink = document.createElement('a');
+        downloadLink.href = videoURL;
+        downloadLink.download = videoFile.name; // اسم الملف عند التنزيل
+        downloadLink.innerText = 'تحميل الفيديو';
+
+        videoItem.appendChild(videoElement);
+        videoItem.appendChild(downloadLink);
+        videoContainer.appendChild(videoItem);
+    }
+});
+/* styles.css */
+
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #e0f7fa;
+    /* خلفية بلون أزرق فاتح */
+    color: #333;
+    /* لون النص */
+    margin: 0;
+    padding: 20px;
+}
+
+h1 {
+    color: #00796b;
+    /* لون عنوان الموقع */
+}
+
+#loginContainer {
+    margin-bottom: 20px;
+}
+
+#uploadSection {
+    background-color: #ffffff;
+    /* خلفية القسم */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    display: inline-block;
+    /* لجعل القسم يتوسط الصفحة */
+}
+
+input[type="file"] {
+    margin-bottom: 10px;
+}
+
+button {
+    background-color: #00796b;
+    /* لون زر الرفع */
+    color: white;
+    /* لون نص الزر */
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #004d40;
+    /* لون الزر عند التحويم */
+}
+
+#videoContainer {
+    margin-top: 20px;
+}
+
+.video-item {
+    margin: 10px 0;
+}
+<!DOCTYPE html>
+<html lang="ar">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>موقع رفع الفيديوهات</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <h1>موقع رفع الفيديوهات</h1>
+    <div id="loginContainer">
+        <input type="password" id="passwordInput" placeholder="أدخل كلمة المرور">
+        <button id="loginButton">تسجيل الدخول</button>
+    </div>
+    <div id="uploadSection" style="display:none;">
+        <form id="uploadForm">
+            <input type="file" id="videoInput" accept="video/*" required>
+            <button type="submit">رفع الفيديو</button>
+        </form>
+        <div id="videoContainer"></div>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>
